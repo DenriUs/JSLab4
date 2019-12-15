@@ -1,6 +1,7 @@
 // useful to have them as global variables
-let canvas, ctx, w, h; 
+let canvas, ctx, w, h;
 let mousePos;
+let ballsCount = 10;
 
 
 // an empty array!
@@ -19,18 +20,21 @@ function init() {
   canvas = document.querySelector("#myCanvas");
   canvas.style.display = 'block';
 
-  document.getElementById("button").style.display = 'none';
+  document.getElementById("bg").style.display = 'none';
   document.getElementById("start").style.display = 'none';
+  document.getElementById("buttons").style.display = 'none';
   
   // often useful
-  w = canvas.width; 
-  h = canvas.height;  
+  w = canvas.width;
+  h = canvas.height;
   
   // important, we will draw with this object
   ctx = canvas.getContext('2d');
   
   // create 10 balls
-  balls = createBalls(10);
+  balls = createBalls(ballsCount);
+
+  ballsCount++;
   
   // add a mousemove event listener to the canvas
   canvas.addEventListener('mousemove', mouseMoved);
@@ -62,7 +66,7 @@ function movePlayerWithMouse() {
 function movePlayerWithKeyboard(e) {
   switch(e.key) {
     case 'ArrowLeft':
-      player.x *= 30;
+      player.x -= 30;
       break;
     case 'ArrowRight':
       player.x += 30;
@@ -81,6 +85,7 @@ function mainLoop() {
   ctx.clearRect(0, 0, w, h);
   
   // draw the ball and the player
+
   drawFilledRectangle(player);
   drawAllBalls(balls);
   drawNumberOfBallsAlive(balls);
@@ -127,7 +132,7 @@ function createBalls(n) {
 }
 
 function getARandomColor() {
-  const colors = ['red', 'blue', 'cyan', 'purple', 'pink', 'green', 'yellow'];
+  const colors = ['red', 'blue', 'cyan', 'purple', 'pink', 'green', 'yellow', 'orange'];
   // a value between 0 and color.length-1
   // Math.round = rounded value
   // Math.random() a value between 0 and 1
@@ -142,13 +147,15 @@ function drawNumberOfBallsAlive(balls) {
   ctx.save();
   ctx.font="30px Arial";
   
-  if(balls.length === 0) {
+  if (balls.length === 0) {
     ctx.fillText("YOU WIN!", 20, 30);
 
-    showReloadButton();
-  } else {
+    showEndGameButtons();
+  } 
+  else {
     ctx.fillText(balls.length, 20, 30);
   }
+
   ctx.restore();
 }
 
@@ -222,7 +229,7 @@ function testCollisionBallWithWalls(b) {
 function drawFilledRectangle(r) {
   // GOOD practice: save the context, use 2D trasnformations
   ctx.save();
-  
+
   // translate the coordinate system, draw relative to it
   ctx.translate(r.x, r.y);
   
@@ -251,8 +258,8 @@ function drawFilledCircle(c) {
   ctx.restore();
 }
 
-function showReloadButton() {
-  document.getElementById("button").style.display = 'block';
+function showEndGameButtons() {
+  document.getElementById("buttons").style.display = 'flex';
 }
 
 function reloadPage() {

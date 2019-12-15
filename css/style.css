@@ -1,10 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 canvas {
   border: 1px solid black;
-  margin-left: 5px;
+  margin-left: 13px;
   display: none;
 }
 
 button {
+  width: 20%;
   background-color: #4CAF50;
   border: none;
   color: white;
@@ -17,33 +33,91 @@ button {
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-#button {
+#bg {
+  background-image: url(https://i.pinimg.com/originals/0b/a3/d6/0ba3d60362c7e6d256cfc1f37156bad9.jpg);
+  height: 100vh;
+  background-size: cover;
+  background-position: 0 0;
+  background-repeat: repeat-x;
+  animation: animate 15s linear infinite;
+  animation-direction: alternate;
+}
+
+#buttons {
+  align-items: center;
+  justify-content: space-around;
   margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-right: 20%;
+  margin-left: 20%;
   display: none;
 }
 
 #start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  margin-left: 30%;
-  margin-right: 30%;
-  margin-top: 25%;
-  margin-bottom: 30%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #start button {
-  animation: 0s linear 0s infinite alternate move_eye;
-  width: 50%;
+  margin-top: 3%;
+  box-shadow: 0px 0px 15px rgb(0, 0, 0);
+  border-radius: 10px;
+}
+
+#menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#menu button {
+  margin-top: 5%;
+  box-shadow: 0px 0px 15px rgb(0, 0, 0);
+  border-radius: 10px;
 }
 
 #start h1 {
   width: 50%;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10%;
   font-family: Candara;
-  color: #044fc7;
-  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  font-size: 3vw;
+  color: #2CCCC3;
+  text-shadow: 0 0 15px rgb(17, 0, 252);
 }
 
-@keyframes move_eye { from { margin-left:-180%; } to { margin-left:100%; }  }
+#bg button:hover {
+  width: 22%;
+  background-color: rgb(0, 255, 8);
+  color: rgb(255, 255, 255);
+}
+
+@keyframes animate {
+  from {
+      background-position: 0 0;
+  }
+  to {
+      background-position: 100% 0;
+  }
+}
+
+/*animation: rotate 1s linear infinite;
+
+@keyframes rotate {
+  from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}*/
