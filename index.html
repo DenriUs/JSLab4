@@ -8,21 +8,41 @@
   <script src="js/js.js"></script>
 </head>
 <body>
-  <canvas id="myCanvas" width="1650" height="800"></canvas>
+  <div id="playArea">
+    <canvas id="myCanvas" width="1200" height="800"></canvas>
+  </div>
   <div id="bg">
-    <div id="start">
+    <div id="welcome">
+      <h1 class="animated fadeIn">Circle chaser</h1>
+      <button onclick="showMenu()" class="animated zoomInUp">GO!</button>
+    </div>
+
+    <div id="menu">
       <h1 class="animated fadeIn">Main Menu</h1>
       <button onclick="init()" class="animated fadeIn">START</button>
-      <div id="menu">
-        <button onclick="" class="animated fadeIn">RULES</button>
-        <button onclick="" class="animated fadeIn">CONTROL</button>
-        <button onclick='location.href="welcome.html"' class="animated fadeIn">EXIT</button>
+      <button onclick="showWelcome()" class="animated fadeIn">EXIT</button>
+    </div>
+
+    <div id="options">
+      <h1 class="animated fadeIn">Options</h1>
+      <h1 class="text">Choose control</h1>
+      <div id="controls">
+        <div id="keyboard">
+          <img src="keyboard.png">
+          <input id="keyboardRadio" type="radio" value="keyboard">
+        </div>
+        <div id="mouse">
+          <img src="mouse.png">
+          <input type="radio" value="mouse">
+        </div>
       </div>
     </div>
   </div>
+
   <div id="buttons">
-    <button id="reload" onclick="reloadPage()">MAIN MENU</button>
-    <button id="mainMenu" onclick="init()">TRY AGAIN</button>
+    <button id="mainMenu" onclick="reloadPage()">EXIT</button>
+    <button id="reload" onclick="init()">TRY AGAIN</button>
   </div>
+
 </body>
 </html>

@@ -1,8 +1,15 @@
-// useful to have them as global variables
+// useful to have them as global letiables
 let canvas, ctx, w, h;
 let mousePos;
 let ballsCount = 10;
 
+let up = false;
+let down = false;
+let left = false;
+let right = false;
+
+const chaser = new Image();
+chaser.src = "player.png";
 
 // an empty array!
 let balls = []; 
@@ -10,9 +17,38 @@ let balls = [];
 const player = {
   x: 10,
   y: 10,
-  width: 20,
-  height: 20,
+  width: 50,
+  height: 50,
+  moveX: 0,
+  moveY: 0,
+  booster: 0.5,
+  maxSpeed: 10,
   color: 'red'
+}
+
+function options() {
+  document.getElementById("menu").style.display = 'none';
+  document.getElementById("buttons").style.display = 'none';
+  document.getElementById("options").style.display = 'flex';
+
+}
+
+function showMenu() {
+  closeWelcome();
+  document.getElementById("menu").style.display = 'flex';
+}
+
+function closeMenu() {
+  document.getElementById("menu").style.display = 'none';
+}
+
+function showWelcome() {
+  closeMenu();
+  document.getElementById("welcome").style.display = 'flex';
+}
+
+function closeWelcome() {
+  document.getElementById("welcome").style.display = 'none';
 }
 
 function init() {
@@ -21,8 +57,6 @@ function init() {
   canvas.style.display = 'block';
 
   document.getElementById("bg").style.display = 'none';
-  document.getElementById("start").style.display = 'none';
-  document.getElementById("buttons").style.display = 'none';
   
   // often useful
   w = canvas.width;
@@ -49,11 +83,85 @@ function mouseMoved(evt) {
 
 function getMousePos(canvas, evt) {
   // necessary work in the canvas coordinate system
-  var rect = canvas.getBoundingClientRect();
+  let rect = canvas.getBoundingClientRect();
   return {
     x: evt.clientX - rect.left,
     y: evt.clientY - rect.top
   };
+}
+
+function checkKeyStatus() {
+	if (up) {
+		if (player.moveY > -player.maxSpeed) {
+			player.moveY -= player.booster;	
+    } 
+    else {
+			player.moveY = -player.maxSpeed;
+		}
+  } 
+  else {
+		if (player.moveY < 0) {
+      player.moveY += player.booster;
+      
+      if (player.moveY > 0) {
+        player.moveY = 0;	
+      }
+		}
+  }
+  
+	if (down) {
+		if (player.moveY < player.maxSpeed) {
+			player.moveY += player.booster;	
+    } 
+    else {
+			player.moveY = player.maxSpeed;
+		}
+  } 
+  else {
+		if (player.moveY > 0) {
+      player.moveY -= player.booster;
+      
+      if(player.moveY < 0) {
+        player.moveY = 0;
+      }
+		}
+  }
+  
+	if (left) {
+		if (player.moveX > -player.maxSpeed) {
+			player.moveX -= player.booster;	
+    } 
+    else {
+			player.moveX = -player.maxSpeed;
+		}
+  } 
+  else {
+		if (player.moveX < 0) {
+      player.moveX += player.booster;
+      
+      if (player.moveX > 0) {
+        player.moveX = 0;
+      }
+		}
+  }
+  
+	if (right) {
+		if (player.moveX < player.maxSpeed) {
+			player.moveX += player.booster;	
+    } 
+    else {
+			player.moveX = player.maxSpeed;
+		}
+  } 
+  else {
+		if (player.moveX > 0) {
+      player.moveX -= player.booster;
+      
+      if (player.moveX < 0) {
+        player.moveX = 0;
+      }
+		}
+  }
 }
 
 function movePlayerWithMouse() {
@@ -63,19 +171,41 @@ function movePlayerWithMouse() {
   }
 }
 
-function movePlayerWithKeyboard(e) {
+function movePlayerWithKeyboard() {
+  player.x += player.moveX;
+  player.y += player.moveY;
+}
+
+function permanentMove(e) {
   switch(e.key) {
     case 'ArrowLeft':
-      player.x -= 30;
+      left = true;
       break;
     case 'ArrowRight':
-      player.x += 30;
+      right = true;
       break;
     case 'ArrowUp':
-      player.y -= 30;
+      up = true;
       break;
     case 'ArrowDown':
-      player.y += 30;
+      down = true;
+      break; 
+  }
+}
+
+function stopMove(e) {
+  switch(e.key) {
+    case 'ArrowLeft':
+      left = false;
+      break;
+    case 'ArrowRight':
+      right = false;
+      break;
+    case 'ArrowUp':
+      up = false;
+      break;
+    case 'ArrowDown':
+      down = false;
       break; 
   }
 }
@@ -85,7 +215,6 @@ function mainLoop() {
   ctx.clearRect(0, 0, w, h);
   
   // draw the ball and the player
-
   drawFilledRectangle(player);
   drawAllBalls(balls);
   drawNumberOfBallsAlive(balls);
@@ -93,7 +222,11 @@ function mainLoop() {
   // animate the ball that is bouncing all over the walls
   moveAllBalls(balls);
   
+  onkeydown = permanentMove;
+  onkeyup = stopMove;
+
   movePlayerWithMouse();
+  testCollisionPlayerWithWalls();
   
   // ask for a new animation frame
   requestAnimationFrame(mainLoop);
@@ -115,7 +248,7 @@ function createBalls(n) {
   const ballArray = [];
   
   // create n balls
-  for(let i=0; i < n; i++) {
+  for(let i = 0; i < n; i++) {
     const b = {
       x: w/2,
       y: h/2,
@@ -123,7 +256,8 @@ function createBalls(n) {
       speedX: -5 + 10 * Math.random(), // between -5 and + 5
       speedY: -5 + 10 * Math.random(), // between -5 and + 5
       color: getARandomColor(),
-    }
+    };
+
     // add ball b to the array
      ballArray.push(b);
   }
@@ -136,7 +270,7 @@ function getARandomColor() {
   // a value between 0 and color.length-1
   // Math.round = rounded value
   // Math.random() a value between 0 and 1
-  let colorIndex = Math.round((colors.length-1) * Math.random()); 
+  let colorIndex = Math.round((colors.length - 1) * Math.random()); 
   let c = colors[colorIndex];
   
   // return the random color
@@ -145,15 +279,16 @@ function getARandomColor() {
 
 function drawNumberOfBallsAlive(balls) {
   ctx.save();
-  ctx.font="30px Arial";
+  ctx.font = "bold 40px Candara";
+  ctx.fillStyle = "#003c9c";
   
   if (balls.length === 0) {
-    ctx.fillText("YOU WIN!", 20, 30);
+    ctx.fillText("YOU WIN!", 515, h/2);
 
     showEndGameButtons();
   } 
   else {
-    ctx.fillText(balls.length, 20, 30);
+    ctx.fillText("Balls left: " + balls.length, 20, 30);
   }
 
   ctx.restore();
@@ -171,6 +306,7 @@ function moveAllBalls(ballArray) {
     // b is the current ball in the array
     b.x += b.speedX;
     b.y += b.speedY;
+
     testCollisionBallWithWalls(b); 
     testCollisionWithPlayer(b, index);
   });
@@ -197,7 +333,7 @@ function testCollisionBallWithWalls(b) {
     
     // put the ball at the collision point
     b.x = w - b.radius;
-  } else if((b.x -b.radius) < 0) {
+  } else if((b.x - b.radius) < 0) {
     // the ball hit the left wall
     // change horizontal direction
     b.speedX = -b.speedX;
@@ -226,6 +362,24 @@ function testCollisionBallWithWalls(b) {
   }  
 }
 
+function testCollisionPlayerWithWalls() {
+  if (player.x + player.width > w) {
+		player.x = canvas.width - player.width;
+  }
+
+  if (player.x - 1 < 0) {
+    player.x = 1;
+	}
+  
+	if (player.y + player.height > h) {
+		player.y = canvas.height - player.height;
+  }
+
+  if(player.y - 1 < 0){
+		player.y = 1;
+	}
+}
+
 function drawFilledRectangle(r) {
   // GOOD practice: save the context, use 2D trasnformations
   ctx.save();
@@ -233,9 +387,10 @@ function drawFilledRectangle(r) {
   // translate the coordinate system, draw relative to it
   ctx.translate(r.x, r.y);
   
-  ctx.fillStyle = r.color;
+  ctx.fillStyle = "blueviolet";
   // (0, 0) is the top left corner of the monster.
   ctx.fillRect(0, 0, r.width, r.height);
+  ctx.drawImage(chaser, 0, 0, 50, 50);
   
   // GOOD practice: restore the context
   ctx.restore();
