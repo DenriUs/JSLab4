@@ -2,7 +2,7 @@
 <html lang="en">
 <head src>
   <meta charset="utf-8">
-  <title>small game in a canvas</title>
+  <title>Circle chaser</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css">
   <script src="js/js.js"></script>
@@ -19,29 +19,86 @@
 
     <div id="menu">
       <h1 class="animated fadeIn">Main Menu</h1>
-      <button onclick="init()" class="animated fadeIn">START</button>
+      <button onclick="options()" class="animated fadeIn">START</button>
       <button onclick="showWelcome()" class="animated fadeIn">EXIT</button>
     </div>
 
     <div id="options">
       <h1 class="animated fadeIn">Options</h1>
-      <h1 class="text">Choose control</h1>
+      <h1 class="text" class="animated fadeIn">Choose control</h1>
       <div id="controls">
         <div id="keyboard">
-          <img src="keyboard.png">
-          <input id="keyboardRadio" type="radio" value="keyboard">
+          <img src="images/keyboard.png">
+          <div class="radio" id="keyboardRadio">
+            <label class="container">Keyboard
+              <input id="keyboard" type="radio" value="keyboard" name="radio">
+              <span class="checkmark"></span>
+            </label>
+          </div>
         </div>
         <div id="mouse">
-          <img src="mouse.png">
-          <input type="radio" value="mouse">
+          <img src="images/mouse.png">
+          <div class="radio">
+            <label class="container">Mouse
+              <input id="mouse" type="radio" checked="checked" value="mouse" name="radio">
+              <span class="checkmark"></span>
+            </label>
+          </div>
         </div>
       </div>
+      <div id="game-options">
+        <h1 class="text" class="animated fadeIn">Customize game</h1>
+        <div id="inputs">
+          <div id="nOfBalls">
+            <h1 class="name">Number of balls: </h1>
+            <input class="text" id="ballsCount" type="number" min=1 max=15 value="3" onKeyDown="return false">
+          </div>
+          <div id="container">
+            <div class="nOfBalls">
+              <h1 class="name">Balls speed:</h1>
+              <div class="items">
+                <h1 class="name"">Min</h1>
+                <input type="range" id="ballsSpeed" name="speed" min="1" max="3" step="0.1" value="1.5">
+                <h1 class="name">Max</h1>
+              </div>
+            </div>
+            <div class="nOfBalls">
+              <h1 class="name">Balls size:</h1>
+              <div class="items">
+                <h1 class="name"">Min</h1>
+                <input type="range" id="ballsSize" name="size" min="5" max="35" step="1" value="15">
+                <h1 class="name">Max</h1>
+              </div>
+            </div>
+            <div class="nOfBalls">
+              <h1 class="name">Player size:</h1>
+              <div class="items">
+                <h1 class="name"">Min</h1>
+                <input type="range" id="playerSize" name="size" min="20" max="90" step="5" value="50">
+                <h1 class="name">Max</h1>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      <button class="animated fadeIn" onclick="init()">START</button>
+    </div>
+  </div>
+
+  <div id="pauseMenu">
+    <button id="pause" class="animated fadeIn" onclick="pauseGame()">PAUSE</button>
+    <button id="resume" class="animated fadeIn" onclick="resumeGame()">RESUME</button>
+  </div>
+
+  <div id="loseText">
+    <div id="loseString">
+      <h3>YOU LOSE!</h3>
     </div>
   </div>
 
   <div id="buttons">
-    <button id="mainMenu" onclick="reloadPage()">EXIT</button>
-    <button id="reload" onclick="init()">TRY AGAIN</button>
+    <button id="mainMenu" class="animated fadeIn" onclick="reloadPage()">EXIT</button>
+    <button id="reload" class="animated fadeIn" onclick="init()">NEXT LEVEL</button>
   </div>
 
 </body>

@@ -34,8 +34,16 @@ button {
   font-family: bold Candara;
   cursor: pointer;
   box-shadow: 0px 0px 15px rgb(0, 0, 0);
-  text-shadow: 0px 0px 20px rgb(0, 0, 0);
+  text-shadow: 0px 0px 20px rgb(247, 11, 255);
   border-radius: 10px;
+}
+
+#pauseMenu {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 #playArea {
@@ -154,25 +162,167 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3%;
+  margin-top: 4.5%;
   margin-left: 20%;
 }
 
 #keyboardRadio {
-  margin-top: -20%;
+  margin-top: -19%;
 }
 
-button:hover {
-  background-color: rgb(0, 255, 8);
-  color: rgb(255, 255, 255);
+.radio {
+  font-family: Candara;
+  color: #2CCCC3;
+  text-transform: capitalize;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-shadow: 0 0 15px rgb(17, 0, 252);
 }
-  
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+
+#game-options {
+  width: 100%;
+}
+
+#options button {
+  margin-top: 3%;
+}
+
+#inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#nOfBallsContainer {
+  display: flex;
+}
+
+#nOfBalls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+}
+
+#ballsCount {
+  margin-top: 2%;
+  width: 60px;;
+  color: #2CCCC3;
+  text-shadow: 0 0 15px rgb(17, 0, 252);
+  box-shadow: 0 0 15px rgb(0, 0, 0);
+}
+
+#container {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#ballsSpeed{
+  margin-top: 4%;
+}
+
+.name {
+  font-size: 20px;
+  width: 100%;
+}
+
+.items {
+  width: 60%;
+  display: flex;
+}
+
+#loseText {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+#loseString {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h3 {
+  width: 50%;
+  margin-left: 36%;
+  margin-top: 10%;
+  font-family: Candara;
+  font-size: 3vw;
+  color: #2CCCC3;
+  text-shadow: 0 0 15px rgb(17, 0, 252);
+}
+
 #welcome button:hover {
   width: 36%;
 }
 
 #menu button:hover {
   width: 22%;
+}
+
+button:hover {
+  background-color: rgb(0, 255, 8);
+  color: rgb(255, 255, 255);
 }
 
 @keyframes animate {
@@ -183,16 +333,3 @@ button:hover {
       background-position: 100% 0;
   }
 }
-
-/*animation: rotate 1s linear infinite;
-
-@keyframes rotate {
-  from {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}*/
